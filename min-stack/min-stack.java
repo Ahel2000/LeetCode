@@ -1,30 +1,24 @@
 class MinStack {
 ​
     /** initialize your data structure here. */
-    int minStack;
+    
     Stack<Integer> stack;
+    Stack<Integer> trackStack;
     public MinStack() {
-        minStack=Integer.MAX_VALUE;
         stack=new Stack<>();
+        trackStack=new Stack<>();
     }
     
     public void push(int x) {
         stack.push(x);
-        minStack=Math.min(x,minStack);
+        if(trackStack.isEmpty())trackStack.push(x);
+        else if(x<trackStack.peek())trackStack.push(x);
+        else trackStack.push(trackStack.peek());
     }
     
     public void pop() {
         stack.pop();
-        minStack=Integer.MAX_VALUE;
-        Stack<Integer> temp=new Stack<>();
-        while(!stack.isEmpty()){
-            int m=stack.peek();
-            minStack=Math.min(minStack,m);
-            temp.push(stack.pop());
-        }
-        while(!temp.isEmpty()){
-            stack.push(temp.pop());
-        }
+        trackStack.pop();
     }
     
     public int top() {
@@ -32,7 +26,7 @@ class MinStack {
     }
     
     public int getMin() {
-        return minStack;
+        return trackStack.peek();
     }
 }
 ​
@@ -41,3 +35,6 @@ class MinStack {
  * MinStack obj = new MinStack();
  * obj.push(x);
  * obj.pop();
+ * int param_3 = obj.top();
+ * int param_4 = obj.getMin();
+ */
