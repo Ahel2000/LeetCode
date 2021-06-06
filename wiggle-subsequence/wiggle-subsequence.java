@@ -3,19 +3,19 @@ class Solution {
         int n=nums.length;
         if(n<=1)return n;
         
-        int inc[]=new int[n];
-        int dec[]=new int[n];
+        int prevdiff = nums[1] - nums[0];
+        int count=0;
+        if(prevdiff!=0)count=2;
+        else count=1;
         
-        for(int i=1;i<n;i++){
-            for(int j=0;j<i;j++){
-                if(nums[i]>nums[j]){
-                    inc[i]=Math.max(inc[i],1+dec[j]);
-                }else if(nums[i]<nums[j]){
-                    dec[i]=Math.max(dec[i],1+inc[j]);
-                }
+        for(int i=2;i<n;i++){
+            int diff = nums[i] - nums[i-1];
+            if((diff > 0 && prevdiff <= 0) || (diff < 0 && prevdiff>=0)){
+                count++;
+                prevdiff = diff;
             }
         }
         
-        return 1+Math.max(inc[n-1],dec[n-1]);
+        return count;
     }
 }
