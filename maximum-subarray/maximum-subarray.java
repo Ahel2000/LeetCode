@@ -1,16 +1,18 @@
 class Solution {
     public int maxSubArray(int[] nums) {
-        int n=nums.length;
-        int max_so_far=0,max_ending_here=0;
-        
-        for(int i=0;i<n;i++){
-            max_ending_here+=nums[i];
-            if(max_ending_here>max_so_far)max_so_far=max_ending_here;
-            else if(max_ending_here<0)max_ending_here=0;
+        int max_so_far = 0, max_till_here = 0;
+        for(int i=0;i<nums.length;i++){
+            max_so_far = max_so_far + nums[i];
+            
+            if(max_so_far < 0){
+                max_so_far = 0;
+            }
+            
+            max_till_here = Math.max(max_till_here,max_so_far);
         }
         
         Arrays.sort(nums);
-        if(nums[n-1]<0)return nums[n-1];
-        else return max_so_far;
+        if(nums[nums.length-1] < 0)return nums[nums.length-1];
+        return max_till_here;
     }
 }
