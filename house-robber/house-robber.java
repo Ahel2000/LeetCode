@@ -6,11 +6,10 @@ class Solution {
         return rob(nums,n,dp);
     }
     
-    public int rob(int []nums, int n, int[] dp){
+    public int rob(int[] nums,int n,int[] dp){
         if(n<=0)return 0;
+        if(dp[n-1] != -1)return dp[n-1];
         
-        if(dp[n-1]!=-1)return dp[n-1];
-        
-        return dp[n-1] = Math.max(rob(nums,n-1,dp),nums[n-1]+rob(nums,n-2,dp));
+        return dp[n-1] = Math.max(nums[n-1]+rob(nums,n-2,dp),rob(nums,n-1,dp));
     }
 }
