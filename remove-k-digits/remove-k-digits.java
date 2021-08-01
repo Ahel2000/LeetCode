@@ -4,22 +4,24 @@ class Solution {
         StringBuilder sb = new StringBuilder();
         Stack<Integer> st = new Stack<>();
         
-        for(int i=0;i<num.length();i++){
+        int n = num.length();
+        for(int i=0;i<n;i++){
             int x = num.charAt(i) - '0';
-            while(k > 0 && st.size() != 0 && st.peek() > x){
+            while(!st.isEmpty() && k > 0 && x < st.peek()){
                 st.pop();
                 k--;
             }
             
-            if(st.size() != 0 || x != 0)st.push(x);
+            if(st.isEmpty() && x == 0)continue;
+            st.push(x);
         }
         
-        while(k > 0 && st.size() != 0){
+        while(!st.isEmpty() && k > 0){
             st.pop();
             k--;
         }
         
-        if(st.size() == 0)return "0";
+        if(st.isEmpty())return "0";
         
         for(int i : st){
             sb.append(i + "");
