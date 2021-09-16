@@ -11,32 +11,33 @@
 class Solution {
     public ListNode deleteDuplicates(ListNode head) {
         HashMap<Integer,Integer> map = new HashMap<>();
+        ListNode temp = head;
         
-        ListNode curr = head;
-        while(curr != null){
-            if(map.containsKey(curr.val)){
-                map.put(curr.val,map.get(curr.val) + 1);
+        while(temp != null){
+            if(map.containsKey(temp.val)){
+                map.put(temp.val,map.get(temp.val) + 1);
             }else{
-                map.put(curr.val,1);
+                map.put(temp.val,1);
             }
             
-            curr = curr.next;
+            temp = temp.next;
         }
         
-        ListNode res = new ListNode(0);
-        res.next = head;
-        ListNode prev = res;
-        curr = head;
+        ListNode x = new ListNode(-1);
+        x.next = head;
+        ListNode prev = x;
+        ListNode curr = head;
         while(curr != null){
-            if(map.get(curr.val) > 1){
+            if(map.get(curr.val) != 1){
                 prev.next = curr.next;
                 curr = curr.next;
             }else{
-                prev = prev.next;
+                prev = curr;
                 curr = curr.next;
             }
+            
         }
         
-        return res.next;
+        return x.next;
     }
 }
