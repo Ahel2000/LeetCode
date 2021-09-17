@@ -1,23 +1,23 @@
 class Solution {
     public List<Integer> findAnagrams(String s, String p) {
-        int n=s.length();
-        int m=p.length();
-        if(n<m)return Collections.emptyList();
+        int n = s.length(),m = p.length();
+        List<Integer> res = new ArrayList<>();
         
-        int hash[] = new int[26];
-        for(int i=0;i<m;i++)hash[p.charAt(i) - 'a']++;
         
-        List<Integer> l = new ArrayList<>();
-        int i = 0,j = 0;
+        
+        int cache[] = new int[26];
+        for(int i=0;i<m;i++)cache[p.charAt(i) - 'a']++;
+        
         int temp[] = new int[26];
+        
+        int i=0,j=0;
         while(i < n && j < n){
-            temp[s.charAt(j) - 'a']++;
-            if(j - i + 1 < m){
-                j++;
-            }else{
-                if(isAnagram(temp,hash)){
-                    l.add(i);
-                }
+            char ch = s.charAt(j);
+            temp[ch - 'a']++;
+            
+            if(j-i+1 < m)j++;
+            else{
+                if(isAnagram(cache,temp))res.add(i);
                 
                 temp[s.charAt(i) - 'a']--;
                 i++;
@@ -25,12 +25,12 @@ class Solution {
             }
         }
         
-        return l;
+        return res;
     }
     
-    public boolean isAnagram(int[] temp,int[] hash){
+    public boolean isAnagram(int[] cache,int temp[]){
         for(int i=0;i<26;i++){
-            if(temp[i] != hash[i])return false;
+            if(cache[i] != temp[i])return false;
         }
         
         return true;
