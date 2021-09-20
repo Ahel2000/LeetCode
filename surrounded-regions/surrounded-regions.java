@@ -1,38 +1,47 @@
 class Solution {
-    public void solve(char[][] board) {
-        if(board.length==0 || board[0].length==0)return;
-        int rows=board.length;
-        int columns=board[0].length;
-        
-        for(int i=0;i<rows;i++){
-            if(board[i][0]=='O')connected(i,0,board);
-            if(board[i][columns-1]=='O')connected(i,columns-1,board);
-        }
-        
-        for(int j=0;j<columns;j++){
-            if(board[0][j]=='O')connected(0,j,board);
-            if(board[rows-1][j]=='O')connected(rows-1,j,board);
-        }
-        
-        for(int i=0;i<rows;i++){
-            for(int j=0;j<columns;j++){
-                if(board[i][j]=='A')board[i][j]='O';
-                else if(board[i][j]=='O')board[i][j]='X';
+    public void solve(char[][] grid) {
+        int m = grid.length,n = grid[0].length;
+        for(int i=0;i<m;i++){
+            if(grid[i][0] == 'O'){
+                dfs(i,0,grid);
+            }
+            
+            if(grid[i][n-1] == 'O'){
+                dfs(i,n-1,grid);
             }
         }
         
-    }
-    
-    public void connected(int i,int j,char[][] board){
-        if(i<0 || i>=board.length || j<0 || j>=board[0].length)return;
+        for(int i=0;i<n;i++){
+            if(grid[0][i] == 'O'){
+                dfs(0,i,grid);
+            }
+            
+            if(grid[m-1][i] == 'O'){
+                dfs(m-1,i,grid);
+            }
+        }
         
-        if(board[i][j]=='O')board[i][j]='A';
-        if(j-1>=0 && board[i][j-1]=='O')connected(i,j-1,board);
-        if(i-1>=0 && board[i-1][j]=='O')connected(i-1,j,board);
-        if(j+1<=board[0].length-1 && board[i][j+1]=='O')connected(i,j+1,board);
-        if(i+1<=board.length-1 && board[i+1][j]=='O')connected(i+1,j,board);
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j] == 'O')grid[i][j] = 'X';
+            }
+        }
+        
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j] == 'T')grid[i][j] = 'O';
+            }
+        }
     }
     
-    
-    
+    public void dfs(int i,int j,char[][] grid){
+        if(i < 0 || j < 0 || i >= grid.length || j >= grid[0].length)return;
+        if(grid[i][j] != 'O')return;
+        
+        grid[i][j] = 'T';
+        dfs(i,j-1,grid);
+        dfs(i,j+1,grid);
+        dfs(i+1,j,grid);
+        dfs(i-1,j,grid);
+    }
 }
